@@ -19,13 +19,63 @@ import Settings._
 import Dependencies._
 
 lazy val root = (project in file("."))
-  .settings(name := "kamon-scala")
+  .settings(moduleName := "root")
+  .settings(basicSettings: _*)
+  .settings(formatSettings: _*)
+  .settings(noPublishing: _*)
+  .aggregate(`kamon-scala`, `kamon-scalaz`, `kamon-twitter`)
+
+lazy val `kamon-scala` = (project in file("scala"))
+  .settings(moduleName := "kamon-scala")
   .settings(basicSettings: _*)
   .settings(formatSettings: _*)
   .settings(aspectJSettings: _*)
+  .dependsOn(`test-utils` % "test->compile")
   .settings(
-      libraryDependencies ++=
-        compileScope(kamonCore) ++
-        providedScope(aspectJ) ++
-        optionalScope(scalazConcurrent, twitterDependency("core").value) ++
-        testScope(scalatest, akkaDependency("testkit").value, akkaDependency("slf4j").value, logback))
+    libraryDependencies
+      ++= compileScope(kamonCore)
+      ++ providedScope(aspectJ)
+      ++ testScope(scalatest, logback)
+  )
+
+lazy val `kamon-scalaz` = (project in file("scalaz"))
+  .settings(moduleName := "kamon-scalaz")
+  .settings(basicSettings: _*)
+  .settings(formatSettings: _*)
+  .settings(aspectJSettings: _*)
+  .dependsOn(`test-utils` % "test->compile")
+  .settings(
+    libraryDependencies
+      ++= compileScope(kamonCore, scalazConcurrent)
+      ++ providedScope(aspectJ)
+      ++ testScope(scalatest, logback)
+  )
+
+lazy val `kamon-twitter` = (project in file("twitter"))
+  .settings(moduleName := "kamon-twitter")
+  .settings(basicSettings: _*)
+  .settings(formatSettings: _*)
+  .settings(aspectJSettings: _*)
+  .dependsOn(`test-utils` % "test->compile")
+  .settings(
+    libraryDependencies
+      ++= compileScope(kamonCore, twitterDependency("core").value)
+      ++ providedScope(aspectJ)
+      ++ testScope(scalatest, logback)
+  )
+
+lazy val `test-utils` = (project in file("test-utils"))
+  .settings(basicSettings: _*)
+  .settings(formatSettings: _*)
+  .settings(noPublishing: _*)
+  .settings(
+    libraryDependencies ++=
+      compileScope(
+        kamonCore,
+        scalatest,
+        akkaDependency("testkit").value,
+        akkaDependency("slf4j").value
+      )
+  )
+
+lazy val noPublishing = Seq(publish := (), publishLocal := (), publishArtifact := false)

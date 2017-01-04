@@ -17,6 +17,7 @@ import sbt._
 import sbt.Keys._
 
 object Dependencies {
+  // @formatter:off
 
   val resolutionRepos = Seq(
     "typesafe repo" at "http://repo.typesafe.com/typesafe/releases/",
@@ -56,4 +57,6 @@ object Dependencies {
   def providedScope  (deps: ModuleID*): Seq[ModuleID] = deps map (_ % "provided")
   def testScope      (deps: ModuleID*): Seq[ModuleID] = deps map (_ % "test")
   def optionalScope  (deps: ModuleID*): Seq[ModuleID] = deps map (_ % "compile,optional")
+
+  // @formatter:on
 }

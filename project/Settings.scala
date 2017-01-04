@@ -30,25 +30,29 @@ object Settings {
   lazy val basicSettings = Seq(
     ivyScala := ivyScala.value map { _.copy(overrideScalaVersion = true) },
     scalaVersion                        := SVersion,
-    crossScalaVersions                  := Seq("2.10.5", "2.11.8", SVersion),
+    crossScalaVersions                  := Seq("2.10.6", "2.11.8", SVersion),
     resolvers                           ++= Dependencies.resolutionRepos,
     fork in run                         := true,
     parallelExecution in Global         := false,
     testGrouping in Test                := singleTestPerJvm((definedTests in Test).value, (javaOptions in Test).value),
-    javacOptions                        := Seq(
-      "-Xlint:-options",
-      "-source", JavaVersion, "-target", JavaVersion),
-    scalacOptions                       := Seq(
-      "-encoding",
-      "utf8",
-      "-g:vars",
-      "-feature",
-      "-unchecked",
-      "-deprecation",
-      "-language:postfixOps",
-      "-language:implicitConversions",
-      "-Xlog-reflective-calls"
-    )) ++ publishSettings ++ releaseSettings
+    scalacOptions                       := commonScalaOptions,
+    javacOptions                        := commonJavaOptions
+  ) ++ publishSettings ++ releaseSettings
+
+  lazy val commonJavaOptions = Seq("-Xlint:-options", "-source", JavaVersion, "-target", JavaVersion)
+
+  lazy val commonScalaOptions = Seq(
+    "-encoding",
+    "utf8",
+    "-g:vars",
+    "-feature",
+    "-unchecked",
+    "-deprecation",
+    "-language:postfixOps",
+    "-language:implicitConversions",
+    "-Xlog-reflective-calls",
+    "-Ywarn-dead-code"
+  )
 
 
   def singleTestPerJvm(tests: Seq[TestDefinition], jvmSettings: Seq[String]): Seq[Group] =

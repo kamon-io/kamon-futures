@@ -12,13 +12,23 @@ Supported releases and dependencies are shown below.
 
 | kamon-scala  | status | jdk  | scala            | akka   |
 |:------:|:------:|:----:|------------------|:------:|
-|  0.6.5 | stable | 1.7+, 1.8+ | 2.10, 2.11, 2.12  | 2.3.x, 2.4.x |
+|  TBD | stable | 1.7+, 1.8+ | 2.10, 2.11, 2.12  | 2.3.x, 2.4.x |
+
+| kamon-scalaz  | status | jdk  | scala            | akka   |
+|:------:|:------:|:----:|------------------|:------:|
+|  TBD | stable | 1.7+, 1.8+ | 2.10, 2.11, 2.12  | 2.3.x, 2.4.x |
+
+| kamon-twitter  | status | jdk  | scala            | akka   |
+|:------:|:------:|:----:|------------------|:------:|
+|  TBD | stable | 1.7+, 1.8+ | 2.10, 2.11, 2.12  | 2.3.x, 2.4.x |
 
 To get started with SBT, simply add the following to your `build.sbt`
 file:
 
 ```scala
-libraryDependencies += "kamon.io" %% "kamon-scala" % "0.6.5"
+libraryDependencies += "kamon.io" %% "kamon-scala" % "X.X.X"
+libraryDependencies += "kamon.io" %% "kamon-scalaz" % "X.X.X"
+libraryDependencies += "kamon.io" %% "kamon-twitter" % "X.X.X"
 ```
 
 

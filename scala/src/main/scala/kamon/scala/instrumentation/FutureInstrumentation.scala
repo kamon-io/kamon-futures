@@ -16,7 +16,7 @@
 
 package kamon.scala.instrumentation
 
-import kamon.trace.{ Tracer, TraceContextAware }
+import kamon.trace.{ TraceContextAware, Tracer }
 import org.aspectj.lang.ProceedingJoinPoint
 import org.aspectj.lang.annotation._
 

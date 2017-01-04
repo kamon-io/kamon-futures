@@ -17,11 +17,11 @@ package kamon.twitter.instrumentation
 
 import java.util.concurrent.Executors
 
+import com.twitter.util.{ Await, FuturePool }
 import kamon.testkit.BaseKamonSpec
 import kamon.trace.Tracer
 import org.scalatest.OptionValues
 import org.scalatest.concurrent.{ PatienceConfiguration, ScalaFutures }
-import com.twitter.util.{ Await, FuturePool }
 
 class FutureInstrumentationSpec extends BaseKamonSpec("future-instrumentation-spec") with ScalaFutures
     with PatienceConfiguration with OptionValues {
