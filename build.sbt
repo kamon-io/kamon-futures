@@ -18,19 +18,19 @@ import AspectJ._
 import Settings._
 import Dependencies._
 
-lazy val root = (project in file("."))
-  .settings(moduleName := "root")
+lazy val `kamon-futures` = (project in file("."))
+  .settings(moduleName := "kamon-futures")
   .settings(basicSettings: _*)
   .settings(formatSettings: _*)
   .settings(noPublishing: _*)
-  .aggregate(`kamon-scala`, `kamon-scalaz`, `kamon-twitter`)
+  .aggregate(`kamon-scala`, `kamon-scalaz`, `kamon-twitter`, `kamon-futures-testkit`)
 
-lazy val `kamon-scala` = (project in file("scala"))
+lazy val `kamon-scala` = (project in file("kamon-scala"))
   .settings(moduleName := "kamon-scala")
   .settings(basicSettings: _*)
   .settings(formatSettings: _*)
   .settings(aspectJSettings: _*)
-  .dependsOn(`test-utils` % "test->compile")
+  .dependsOn(`kamon-futures-testkit` % "test->compile")
   .settings(
     libraryDependencies
       ++= compileScope(kamonCore)
@@ -38,12 +38,12 @@ lazy val `kamon-scala` = (project in file("scala"))
       ++ testScope(scalatest, logback)
   )
 
-lazy val `kamon-scalaz` = (project in file("scalaz"))
+lazy val `kamon-scalaz` = (project in file("kamon-scalaz"))
   .settings(moduleName := "kamon-scalaz")
   .settings(basicSettings: _*)
   .settings(formatSettings: _*)
   .settings(aspectJSettings: _*)
-  .dependsOn(`test-utils` % "test->compile")
+  .dependsOn(`kamon-futures-testkit` % "test->compile")
   .settings(
     libraryDependencies
       ++= compileScope(kamonCore, scalazConcurrent)
@@ -51,12 +51,12 @@ lazy val `kamon-scalaz` = (project in file("scalaz"))
       ++ testScope(scalatest, logback)
   )
 
-lazy val `kamon-twitter` = (project in file("twitter"))
+lazy val `kamon-twitter` = (project in file("kamon-twitter"))
   .settings(moduleName := "kamon-twitter")
   .settings(basicSettings: _*)
   .settings(formatSettings: _*)
   .settings(aspectJSettings: _*)
-  .dependsOn(`test-utils` % "test->compile")
+  .dependsOn(`kamon-futures-testkit` % "test->compile")
   .settings(
     libraryDependencies
       ++= compileScope(kamonCore, twitterDependency("core").value)
@@ -64,7 +64,7 @@ lazy val `kamon-twitter` = (project in file("twitter"))
       ++ testScope(scalatest, logback)
   )
 
-lazy val `test-utils` = (project in file("test-utils"))
+lazy val `kamon-futures-testkit` = (project in file("kamon-futures-testkit"))
   .settings(basicSettings: _*)
   .settings(formatSettings: _*)
   .settings(noPublishing: _*)
