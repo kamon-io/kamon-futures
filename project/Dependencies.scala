@@ -26,8 +26,8 @@ object Dependencies {
 
   val kamonVersion      = "0.6.5"
   val aspectjVersion    = "1.8.10"
-  val akkaVersion210    = "2.3.16"
-  val akkaVersion212    = "2.4.16"
+  val akkaVersion23    = "2.3.16"
+  val akkaVersion24    = "2.4.16"
 
   val aspectJ           = "org.aspectj"               %   "aspectjweaver"         % aspectjVersion
 
@@ -41,15 +41,15 @@ object Dependencies {
 
   def akkaDependency(moduleName: String) = Def.setting {
     scalaBinaryVersion.value match {
-      case "2.10" | "2.11"  => "com.typesafe.akka" %% s"akka-$moduleName" % akkaVersion210
-      case "2.12"           => "com.typesafe.akka" %% s"akka-$moduleName" % akkaVersion212
+      case "2.10"           => "com.typesafe.akka" %% s"akka-$moduleName" % akkaVersion23
+      case "2.11" | "2.12"  => "com.typesafe.akka" %% s"akka-$moduleName" % akkaVersion24
     }
   }
 
   def twitterDependency(moduleName: String) = Def.setting {
     scalaBinaryVersion.value match {
-      case "2.10" | "2.11"  => "com.twitter" %% s"util-$moduleName" % "6.34.0"
-      case "2.12"           => "com.twitter" %% s"util-$moduleName" % "6.40.0"
+      case "2.10"           => "com.twitter" %% s"util-$moduleName" % "6.34.0"
+      case "2.11" | "2.12"  => "com.twitter" %% s"util-$moduleName" % "6.40.0"
     }
   }
 
