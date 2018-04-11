@@ -11,7 +11,7 @@ object FutureSpans {
   def withNewAsyncSpan[T](operationName: String, spanKind: String, component: String, tags: Map[String, String] = Map.empty)(code: Span ⇒ Future[T]): Future[T] = {
     val spanBuilder = Kamon.buildSpan(operationName)
       .withMetricTag("span.kind", spanKind)
-      .withTag("component", component)
+      .withMetricTag("component", component)
     val spanBuilderWithTags = tags.foldLeft(spanBuilder){case (s, (k,v)) => s.withTag(k,v)}
 
     val span = spanBuilderWithTags.start()
