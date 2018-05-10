@@ -13,11 +13,15 @@
  * =========================================================================================
  */
 
-val kamonCore         = "io.kamon"     %%   "kamon-core"        % "1.0.0"
-val kamonTestkit      = "io.kamon"     %%   "kamon-testkit"     % "1.0.0"
+val kamonCore             = "io.kamon"     %%   "kamon-core"              % "1.1.2"
+val kamonTestkit          = "io.kamon"     %%   "kamon-testkit"           % "1.1.2"
+val kanelaScalaExtension  = "io.kamon"     %%  "kanela-scala-extension"   % "0.0.10"
+val kamonExecutors        = "io.kamon"     %%   "kamon-executors"         % "1.0.2"
+
 val scalazConcurrent  = "org.scalaz"   %%   "scalaz-concurrent" % "7.2.8"
 
 resolvers in ThisBuild += Resolver.bintrayRepo("kamon-io", "snapshots")
+resolvers in ThisBuild += Resolver.mavenLocal
 
 lazy val `kamon-futures` = (project in file("."))
   .settings(name := "kamon-futures")
@@ -27,32 +31,31 @@ lazy val `kamon-futures` = (project in file("."))
 
 lazy val `kamon-twitter-future` = (project in file("kamon-twitter-future"))
   .settings(bintrayPackage := "kamon-futures")
-  .settings(aspectJSettings: _*)
+  .enablePlugins(JavaAgent)
+  .settings(javaAgents ++= resolveAgent)
   .settings(
     libraryDependencies ++=
-      compileScope(kamonCore) ++
-      providedScope(aspectJ) ++
+      compileScope(kamonCore, kanelaScalaExtension, kamonExecutors) ++
       optionalScope(twitterDependency("core").value) ++
       testScope(scalatest, kamonTestkit, logbackClassic))
 
 lazy val `kamon-scalaz-future` = (project in file("kamon-scalaz-future"))
   .settings(bintrayPackage := "kamon-futures")
-  .settings(aspectJSettings: _*)
+  .enablePlugins(JavaAgent)
+  .settings(javaAgents ++= resolveAgent)
   .settings(
     libraryDependencies ++=
-      compileScope(kamonCore) ++
-      providedScope(aspectJ) ++
+      compileScope(kamonCore, kanelaScalaExtension, kamonExecutors) ++
       optionalScope(scalazConcurrent) ++
       testScope(scalatest, kamonTestkit, logbackClassic))
 
 lazy val `kamon-scala-future` = (project in file("kamon-scala-future"))
   .settings(bintrayPackage := "kamon-futures")
-  .settings(aspectJSettings: _*)
+  .enablePlugins(JavaAgent)
+  .settings(javaAgents ++= resolveAgent)
   .settings(
     libraryDependencies ++=
-      compileScope(kamonCore) ++
-        providedScope(aspectJ) ++
-        optionalScope(scalazConcurrent, twitterDependency("core").value) ++
+      compileScope(kamonCore, kanelaScalaExtension) ++
         testScope(scalatest, kamonTestkit, logbackClassic))
 
 
@@ -61,4 +64,12 @@ def twitterDependency(moduleName: String) = Def.setting {
     case "2.10"           => "com.twitter" %% s"util-$moduleName" % "6.34.0"
     case "2.11" | "2.12"  => "com.twitter" %% s"util-$moduleName" % "6.40.0"
   }
+}
+
+def resolveAgent: Seq[ModuleID] = {
+  val agent = Option(System.getProperty("agent")).getOrElse("aspectj")
+  if(agent.equalsIgnoreCase("kanela"))
+    Seq("org.aspectj" % "aspectjweaver" % "1.9.1" % "compile", "io.kamon" % "kanela-agent" % "0.0.300" % "compile;test")
+  else
+    Seq("org.aspectj" % "aspectjweaver" % "1.9.1" % "compile;test", "io.kamon" % "kanela-agent" % "0.0.11" % "compile")
 }

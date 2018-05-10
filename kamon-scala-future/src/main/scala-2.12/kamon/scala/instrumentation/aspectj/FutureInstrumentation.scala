@@ -14,7 +14,7 @@
  * =========================================================================================
  */
 
-package kamon.scala.instrumentation
+package kamon.scala.instrumentation.aspectj
 
 import kamon.Kamon
 import kamon.context.HasContext

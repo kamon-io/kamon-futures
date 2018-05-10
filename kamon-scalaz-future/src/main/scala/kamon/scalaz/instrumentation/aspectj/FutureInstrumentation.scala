@@ -1,6 +1,6 @@
 /*
  * =========================================================================================
- * Copyright © 2013-2014 the kamon project <http://kamon.io/>
+ * Copyright © 2013-2018 the kamon project <http://kamon.io/>
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file
  * except in compliance with the License. You may obtain a copy of the License at
@@ -14,7 +14,7 @@
  * =========================================================================================
  */
 
-package kamon.scala.instrumentation
+package kamon.scalaz.instrumentation.aspectj
 
 import kamon.Kamon
 import kamon.context.HasContext
@@ -24,27 +24,25 @@ import org.aspectj.lang.annotation._
 @Aspect
 class FutureInstrumentation {
 
-  @DeclareMixin("scala.concurrent.impl.CallbackRunnable || scala.concurrent.impl.Future.PromiseCompletingRunnable")
-  def mixinTraceContextAwareToFutureRelatedRunnable: HasContext =
+  @DeclareMixin("scalaz.concurrent..* && java.util.concurrent.Callable+")
+  def mixinTraceContextAwareToFutureRelatedCallable: HasContext =
     HasContext.fromCurrentContext()
 
-  @Pointcut("execution((scala.concurrent.impl.CallbackRunnable || scala.concurrent.impl.Future.PromiseCompletingRunnable).new(..)) && this(runnable)")
-  def futureRelatedRunnableCreation(runnable: HasContext): Unit = {}
+  @Pointcut("execution((scalaz.concurrent..* && java.util.concurrent.Callable+).new(..)) && this(callable)")
+  def futureRelatedCallableCreation(callable: HasContext): Unit = {}
 
-  @After("futureRelatedRunnableCreation(runnable)")
-  def afterCreation(runnable: HasContext): Unit = {
+  @After("futureRelatedCallableCreation(callable)")
+  def afterCreation(callable: HasContext): Unit =
     // Force traceContext initialization.
-    runnable.context
-  }
+    callable.context
 
-  @Pointcut("execution(* (scala.concurrent.impl.CallbackRunnable || scala.concurrent.impl.Future.PromiseCompletingRunnable).run()) && this(runnable)")
-  def futureRelatedRunnableExecution(runnable: HasContext) = {}
+  @Pointcut("execution(* (scalaz.concurrent..* && java.util.concurrent.Callable+).call()) && this(callable)")
+  def futureRelatedCallableExecution(callable: HasContext): Unit = {}
 
-  @Around("futureRelatedRunnableExecution(runnable)")
-  def aroundExecution(pjp: ProceedingJoinPoint, runnable: HasContext): Any = {
-    Kamon.withContext(runnable.context) {
+  @Around("futureRelatedCallableExecution(callable)")
+  def aroundExecution(pjp: ProceedingJoinPoint, callable: HasContext): Any =
+    Kamon.withContext(callable.context) {
       pjp.proceed()
     }
-  }
 
 }
