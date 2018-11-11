@@ -14,10 +14,10 @@
  * =========================================================================================
  */
 
-package kamon.twitter.instrumentation
+package kamon.twitter.instrumentation.aspectj
 
 import kamon.Kamon
-import kamon.context.HasContext
+import kamon.instrumentation.Mixin.HasContext
 import org.aspectj.lang.ProceedingJoinPoint
 import org.aspectj.lang.annotation._
 
