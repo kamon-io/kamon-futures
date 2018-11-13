@@ -14,7 +14,7 @@
  * =========================================================================================
  */
 
-package kamon.twitter.instrumentation.aspectj
+package kamon.instrumentation.twitter.aspectj
 
 import kamon.Kamon
 import kamon.instrumentation.Mixin.HasContext

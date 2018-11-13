@@ -6,7 +6,7 @@
   </aspects>
 
   <weaver>
-    <include within="kamon.scalaz.instrumentation..*"/>
+    <include within="kamon.instrumentation.scalaz..*"/>
     <include within="scalaz.concurrent..*"/>
   </weaver>
 </aspectj>
