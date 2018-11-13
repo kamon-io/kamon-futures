@@ -34,22 +34,33 @@ class FutureInstrumentation extends KanelaInstrumentation {
 
   forRawMatching(matcher) { builder ⇒
     builder
-      .withMixin(classOf[HasContextMixin])
+      .withMixin(classOf[HasMutableContextMixin])
+      .withAdvisorFor(Constructor, classOf[ConstructorAdvisor])
       .withAdvisorFor(method("call"), classOf[RunMethodAdvisor])
       .build()
   }
 }
 
+trait HasMutableContext extends HasContext {
+  def setContext(context: Context): Unit
+}
 
-class HasContextMixin extends HasContext {
-  private var _context: Context = _
+class HasMutableContextMixin extends HasMutableContext {
+  private var _context: Context = Kamon.currentContext()
 
-  @Initializer
-  def initialize(): Unit =
-    _context = Kamon.currentContext()
+  override def setContext(context: Context): Unit =
+    _context = context
 
   override def context: Context =
     _context
+}
+
+class ConstructorAdvisor
+object ConstructorAdvisor {
+
+  @Advice.OnMethodExit
+  def exit(@Advice.This hasMutableContext: HasMutableContext): Unit =
+    hasMutableContext.setContext(Kamon.currentContext())
 }
 
 class RunMethodAdvisor
