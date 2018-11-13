@@ -46,7 +46,7 @@ trait HasMutableContext extends HasContext {
 }
 
 class HasMutableContextMixin extends HasMutableContext {
-  private var _context: Context = Kamon.currentContext()
+  private var _context: Context = _
 
   override def setContext(context: Context): Unit =
     _context = context
