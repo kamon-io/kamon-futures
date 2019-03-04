@@ -8,7 +8,7 @@ import kanela.agent.scala.KanelaInstrumentation
 
 class CatsIoInstrumentation extends KanelaInstrumentation {
 
-  forTargetType("cats.effect.internals.IOShift.Tick") { builder =>
+  forTargetType("cats.effect.internals.IOShift$Tick") { builder =>
     builder
       .withMixin(classOf[HasContextMixin])
       .withAdvisorFor(method("run"), classOf[RunMethodAdvisor])
