@@ -26,6 +26,8 @@ val catsEffect       = "org.typelevel" %%  "cats-effect"                % "1.2.0
 resolvers in ThisBuild += Resolver.bintrayRepo("kamon-io", "snapshots")
 resolvers in ThisBuild += Resolver.mavenLocal
 
+def crossCompile = crossScalaVersions += "2.13.0" // until https://github.com/kamon-io/kamon-sbt-umbrella/pull/3
+
 lazy val `kamon-futures` = (project in file("."))
   .enablePlugins(JavaAgent)
   .settings(noPublishing: _*)
@@ -60,6 +62,8 @@ lazy val `kamon-scalaz-future` = (project in file("kamon-scalaz-future"))
 lazy val `kamon-scala-future` = (project in file("kamon-scala-future"))
   .enablePlugins(JavaAgent)
   .settings(instrumentationSettings)
+  .settings(crossCompile)
+  .settings(scalaVersion := "2.13.0")
   .settings(
     bintrayPackage := "kamon-futures",
     libraryDependencies ++=
