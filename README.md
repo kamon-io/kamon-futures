@@ -20,9 +20,10 @@ file:
 ```scala
 resolvers += Resolver.bintrayRepo("kamon-io", "snapshots")
 
-libraryDependencies += "io.kamon" %% "kamon-scala-future" % "1.0.0"
-libraryDependencies += "io.kamon" %% "kamon-scalaz-future" % "1.0.0"
-libraryDependencies += "io.kamon" %% "kamon-twitter-future" % "1.0.0"
+libraryDependencies += "io.kamon" %% "kamon-cats-io" % "2.0.1"
+libraryDependencies += "io.kamon" %% "kamon-scala-future" % "2.0.1"
+libraryDependencies += "io.kamon" %% "kamon-scalaz-future" % "2.0.1"
+libraryDependencies += "io.kamon" %% "kamon-twitter-future" % "2.0.1"
 ```
 
 
