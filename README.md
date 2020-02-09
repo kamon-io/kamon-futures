@@ -6,13 +6,13 @@
 
 ### Getting Started
 
-The Futures instrumentation is currently available for Scala 2.10, 2.11 and 2.12.
+The Futures instrumentation is currently available for Scala 2.11, 2.12 and 2.13.
 
 Supported releases and dependencies are shown below.
 
 | kamon-futures  | status | jdk  | scala
 |:------:|:------:|:----:|------------------
-|  1.0.0 | stable | 1.7+, 1.8+ | 2.10, 2.11, 2.12
+|  2.0.1 | stable | 1.7+, 1.8+ | 2.11, 2.12, 2.13
 
 To get started with SBT, simply add the following to your `build.sbt`
 file:
@@ -20,15 +20,15 @@ file:
 ```scala
 resolvers += Resolver.bintrayRepo("kamon-io", "snapshots")
 
-libraryDependencies += "io.kamon" %% "kamon-scala-future" % "1.0.0"
-libraryDependencies += "io.kamon" %% "kamon-scalaz-future" % "1.0.0"
-libraryDependencies += "io.kamon" %% "kamon-twitter-future" % "1.0.0"
+libraryDependencies += "io.kamon" %% "kamon-scala-future" % "2.0.1"
+libraryDependencies += "io.kamon" %% "kamon-scalaz-future" % "2.0.1"
+libraryDependencies += "io.kamon" %% "kamon-twitter-future" % "2.0.1"
 ```
 
 
 ## Automatic TraceContext Propagation with Futures
 
-The `kamon-futures` module provides bytecode instrumentation for Scala, Scalaz and Twitter Futures that automatically
+The `kamon-futures` module provides bytecode instrumentation for Scala, Scalaz, Cats IO, and Twitter Futures that automatically
 propagates the `Context` across the asynchronous operations that might be scheduled for a given `Future`.
 
 All modules in the <b>kamon-futures</b> project module require you to start your application using the AspectJ Weaver
