@@ -54,7 +54,7 @@ class MonixInstrumentationSpec extends WordSpec with ScalaFutures with Matchers 
       }
 
       "must be available in parallel settings" in {
-        implicit val ctxShift: Scheduler = monix.execution.Scheduler.Implicits.global
+        implicit val ctxShift: Scheduler = monix.execution.Scheduler.Implicits.traced
         val context = Context.of("key", "value")
 
         val anotherExecutionContext: ExecutionContext =
