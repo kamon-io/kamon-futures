@@ -14,14 +14,14 @@
  */
 
 val kamonCore        = "io.kamon"     %% "kamon-core"                   % "2.0.0"
-val kamonTestkit     = "io.kamon"     %% "kamon-testkit"                % "2.0.0"
+val kamonTestkit     = "io.kamon"     %% "kamon-testkit"                % "2.0.4"
 val kamonExecutors   = "io.kamon"     %% "kamon-executors"              % "2.0.0"
 val kamonInstrument  = "io.kamon"     %% "kamon-instrumentation-common" % "2.0.0"
 val kanelaAgent      = "io.kamon"     %  "kanela-agent"                 % "1.0.0"
 
 val twitterUtilCore  = "com.twitter"   %% "util-core"                   % "6.40.0"
 val scalazConcurrent = "org.scalaz"    %% "scalaz-concurrent"           % "7.2.28"
-val catsEffect       = "org.typelevel" %%  "cats-effect"                % "1.2.0"
+val catsEffect       = "org.typelevel" %%  "cats-effect"                % "2.0.0"
 
 resolvers in ThisBuild += Resolver.bintrayRepo("kamon-io", "snapshots")
 resolvers in ThisBuild += Resolver.mavenLocal
@@ -75,8 +75,7 @@ lazy val `kamon-cats-io` = (project in file("kamon-cats-io"))
   .settings(bintrayPackage := "kamon-futures")
   .settings(instrumentationSettings)
   .settings(
-    scalaVersion := "2.12.8",
-    crossScalaVersions := Seq("2.11.12", "2.12.8"),
+    crossScalaVersions := Seq("2.11.12", "2.12.8", "2.13.0"),
     libraryDependencies ++=
       compileScope(kamonCore, kamonExecutors) ++
       providedScope(catsEffect, kanelaAgent) ++
